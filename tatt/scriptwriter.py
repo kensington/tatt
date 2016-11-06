@@ -78,11 +78,7 @@ def writerdepscript(job, config):
     rdeps = []
     for p in job.packageList:
         rdeps = rdeps + stablerdeps (p, config)
-    if len(rdeps) == 0:
-        print("No stable rdeps for " + job.name)
-        return
 
-    # If there are rdeps, write the script
     try:
         rdepheaderfile=open(config['template-dir'] + "revdep-header", 'r')
     except IOError:
@@ -96,10 +92,14 @@ def writerdepscript(job, config):
     outfile = open(outfilename,'w')
     outfile.write(rdepheader)
 
-    for r in rdeps:
-        # Todo: remove duplicates
-        localsnippet = rdepTestString (r, config)
-        outfile.write(localsnippet.replace("@@REPORTFILE@@", reportname))
+    if len(rdeps) == 0:
+        outfile.write("echo No stable rdeps for " + job.name)
+    else:
+        for r in rdeps:
+            # Todo: remove duplicates
+            localsnippet = rdepTestString (r, config)
+            outfile.write(localsnippet.replace("@@REPORTFILE@@", reportname))
+
     os.fchmod(outfile.fileno(),484)
     outfile.close()
 
