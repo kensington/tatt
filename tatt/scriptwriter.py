@@ -41,7 +41,7 @@ def writeusecombiscript(job, config):
         print("use-header not found in " + config['template-dir'])
         sys.exit(1)
     useheader=useheaderfile.read().replace("@@JOB@@", job.name)
-    outfilename = (job.name + "-useflags.sh")
+    outfilename = (job.name + "-01-useflags.sh")
     reportname = (job.name + ".report")
     if os.path.isfile(outfilename):
         print("WARNING: Will overwrite " + outfilename)
@@ -89,7 +89,7 @@ def writerdepscript(job, config):
         print("revdep-header not found in " + config['template-dir'])
         sys.exit(1)
     rdepheader=rdepheaderfile.read().replace("@@JOB@@", job.name)
-    outfilename = (job.name + "-rdeps.sh")
+    outfilename = (job.name + "-02-rdeps.sh")
     reportname = (job.name + ".report")
     if os.path.isfile(outfilename):
         print("WARNING: Will overwrite " + outfilename)
@@ -106,7 +106,7 @@ def writerdepscript(job, config):
 
 #######Write report script############
 def writesucessreportscript (job, config):
-    outfilename = (job.name + "-success.sh")
+    outfilename = (job.name + "-03-updatebug.sh")
     reportname = (job.name + ".report")
     if os.path.isfile(outfilename):
         print("WARNING: Will overwrite " + outfilename)
@@ -133,7 +133,7 @@ def writecommitscript (job, config):
         sys.exit(1)
     csnippet = commitsnippetfile.read().replace("@@JOB@@", job.name)
     csnippet2 = commitsnippetfile2.read().replace("@@JOB@@", job.name)
-    outfilename = (job.name + "-commit.sh")
+    outfilename = (job.name + "-04-commit.sh")
     if os.path.isfile(outfilename):
         print("WARNING: Will overwrite " + outfilename)
     outfile = open(outfilename,'w')
@@ -197,7 +197,7 @@ def writeCleanUpScript (job, config):
     script = cleanUpTemplate.read().replace("@@JOB@@", job.name)
     script = script.replace("@@CPV@@", job.name)
     script = script.replace("@@KEYWORDFILE@@", config['unmaskfile'])
-    outfilename = (job.name + "-cleanup.sh")
+    outfilename = (job.name + "-05-cleanup.sh")
     if os.path.isfile(outfilename):
         print("WARNING: Will overwrite " + outfilename)
     outfile = open(outfilename,'w')
